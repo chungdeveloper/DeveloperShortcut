@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="dc.soft.developer.shortcut.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tvVersion"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/btnDeveloper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_white_round_conner_5"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="20dp"
+                android:text="@string/goto_developer_setting"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_white_round_conner_5"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="20dp"
+                android:text="@string/goto_location_setting"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnWifiSetting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_white_round_conner_5"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="20dp"
+                android:text="@string/goto_wifi_setting"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnApplication"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_white_round_conner_5"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="20dp"
+                android:text="@string/goto_application_setting"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_white_round_conner_5"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="20dp"
+                android:text="@string/goto_deviceinfo"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tvVersion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp" />
+</RelativeLayout>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Developer Shortcut</string>
+    <string name="goto_developer_setting">Goto Developer Setting</string>
+    <string name="goto_location_setting">Goto Location Setting</string>
+    <string name="goto_wifi_setting">Goto Wifi Setting</string>
+    <string name="goto_application_setting">Goto Application Setting</string>
+    <string name="goto_deviceinfo">Goto DeviceInfo</string>
+</resources>

@@ -1,0 +1,110 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        //noinspection GradleDynamicVersion
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+
+android {
+    signingConfigs {
+        release {
+            keyAlias 'developer'
+            keyPassword '123456a@'
+            storeFile file('C:/Users/shoot/OneDrive/Documents/Project/keys/developer_shortcut.jks')
+            storePassword '123456a@'
+        }
+    }
+    compileSdkVersion 28
+
+    def versionPropsFile = file('version.properties')
+    def numberBuild
+    def versionBuild
+    def versionNameValue
+    Properties versionProps
+    if (versionPropsFile.canRead()) {
+        versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        numberBuild = versionProps['NUMBER_BUILD'].toInteger()
+        versionBuild = versionProps['VERSION_BUILD'].toInteger()
+        versionNameValue = (versionBuild < 100 ? 0 : "").toString() + versionBuild.toString().replace("", ".")
+        versionNameValue = versionNameValue.substring(0, versionNameValue.length() - 1)
+    } else {
+        throw new FileNotFoundException("Could not read version.properties!")
+    }
+    ext.autoIncrementBuildNumber = {
+
+        if (versionPropsFile.canRead()) {
+            numberBuild = versionProps['NUMBER_BUILD'].toInteger() + 1
+            versionProps['NUMBER_BUILD'] = numberBuild.toString()
+            versionProps.store(versionPropsFile.newWriter(), null)
+        } else {
+            throw new FileNotFoundException("Could not read version.properties!")
+        }
+    }
+    ext.autoIncrementVersionNumber = {
+        if (versionPropsFile.canRead()) {
+            versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1
+            versionProps['VERSION_BUILD'] = versionBuild.toString()
+            versionNameValue = versionBuild.toString().replace("", ".")
+            versionNameValue = versionNameValue.substring(1, versionNameValue.length() - 1)
+            versionProps.store(versionPropsFile.newWriter(), null)
+        } else {
+            throw new FileNotFoundException("Could not read version.properties!")
+        }
+    }
+    gradle.taskGraph.whenReady { taskGraph ->
+        if (taskGraph.hasTask(assembleDebug)) {
+            autoIncrementBuildNumber()
+        } else if (taskGraph.hasTask(assembleRelease)) {
+            autoIncrementBuildNumber()
+            autoIncrementVersionNumber()
+        }
+    }
+    defaultConfig {
+        applicationId "developer.kit.shortcut"
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode versionBuild
+        versionName versionNameValue
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            buildConfigField 'String', 'BUILD_NUMBER', "\" - build " + numberBuild + " - release\""
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'BUILD_NUMBER', "\" - build " + numberBuild + " - debug\""
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.6@aar') {
+        transitive = true
+    }
+}
